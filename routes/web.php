@@ -18,3 +18,9 @@ Route::get('/', function () {
 Route::get('/test', function () {
     return 'Route de test';
 });
+
+
+// At the end --> important because the other routes are treated before
+Route::get('{allRoutes}', function () {
+    return view('index');
+});
