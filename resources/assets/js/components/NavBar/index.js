@@ -16,14 +16,10 @@ class NavBar extends Component {
 
     render () {
         return (
-            <nav className="navbar navbar-inverse bg-inverse sticky-top navbar-toggleable-md">
+            <nav className="navbar navbar-dark bg-dark">
                 <div className="container">
-                    <button className="navbar-toggler navbar-toggler-right" type="button" onClick={() => this.toggleNav()}>
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
                     <Link className="navbar-brand" to="/">CCFF</Link>
-                    <div ref="navBarCollapse" className="collapse navbar-collapse" id="#test">
-                        <ul className="navbar-nav ml-auto">
+                        <ul className="nav">
                             <li className={"nav-item " + (this.props.uri === '' ? 'active' : '')}>
                                 <Link className="nav-link" to="/">Home</Link>
                             </li>
@@ -37,7 +33,6 @@ class NavBar extends Component {
                                 <Link className="nav-link" to="/contact">Contact</Link>
                             </li>
                         </ul>
-                    </div>
                 </div>
             </nav>
         )

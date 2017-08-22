@@ -31,7 +31,7 @@ mix.webpackConfig({
 
 })
 
-mix.browserSync('http://localhost:8000')
+mix.browserSync('http://127.0.0.1:8000')
 
 mix.react('resources/assets/js/index.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
