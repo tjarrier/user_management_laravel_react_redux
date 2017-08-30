@@ -12,7 +12,7 @@ const ROOT = path.resolve(__dirname)
  | file for the application as well as bundling up all the JS files.
  |
  */
-console.log(__dirname)
+// console.log(__dirname)
 mix.webpackConfig({
     resolve: {
         alias: {
@@ -31,7 +31,7 @@ mix.webpackConfig({
 
 })
 
-mix.browserSync('http://127.0.0.1:8000')
+mix.browserSync('http://laravelreacttest.dev')
 
 mix.react('resources/assets/js/index.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
