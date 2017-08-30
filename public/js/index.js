@@ -12350,6 +12350,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var SEARCH_RESULT = exports.SEARCH_RESULT = 'SEARCH_RESULT';
 var ADD = exports.ADD = 'ADD';
+var ADD_ERROR = exports.ADD_ERROR = 'ADD_ERROR';
 var DELETE = exports.DELETE = 'DELETE';
 
 /***/ }),
@@ -29673,9 +29674,9 @@ var Users = function (_Component) {
             }
             console.log((0, _moment2.default)(_this.state.birthday, 'DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss'));
             _this.props.addUser({
-                firstname: _this.state.firstname != '' ? _this.state.firstname : 'Non renseigné',
-                lastname: _this.state.lastname != '' ? _this.state.lastname : 'Non renseigné',
-                username: _this.state.username != '' ? _this.state.username : 'Non renseigné',
+                firstname: _this.state.firstname,
+                lastname: _this.state.lastname,
+                username: _this.state.username,
                 birthday: _this.state.birthday != '' ? (0, _moment2.default)(_this.state.birthday, 'DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss') : null,
                 age: age
             });
@@ -29705,7 +29706,7 @@ var Users = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            // console.log(this.props)
+            console.log(this.props.users, this.props.errorsUsers);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -29717,51 +29718,71 @@ var Users = function (_Component) {
                         null,
                         _react2.default.createElement(
                             'div',
-                            { className: 'form-group' },
+                            { className: 'form-group has-danger has-feedback' },
                             _react2.default.createElement(
                                 'label',
                                 { htmlFor: 'firstname' },
                                 'First Name'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'firstname', placeholder: 'First Name', value: this.state.firstname, onChange: function onChange(e) {
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control form-control-danger', name: 'firstname', id: 'firstname', placeholder: 'First Name', value: this.state.firstname, onChange: function onChange(e) {
                                     return _this2.setState({ firstname: e.target.value });
-                                } })
+                                } }),
+                            this.props.errorsUsers.firstname != null && _react2.default.createElement(
+                                'div',
+                                { className: 'invalid-feedback', style: { display: 'block' } },
+                                this.props.errorsUsers.firstname
+                            )
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'form-group' },
+                            { className: 'form-group has-danger' },
                             _react2.default.createElement(
                                 'label',
                                 { htmlFor: 'lastname' },
                                 'Last Name'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'lastname', placeholder: 'Last Name', value: this.state.lastname, onChange: function onChange(e) {
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control form-control-danger', name: 'lastname', id: 'lastname', placeholder: 'Last Name', value: this.state.lastname, onChange: function onChange(e) {
                                     return _this2.setState({ lastname: e.target.value });
-                                } })
+                                } }),
+                            this.props.errorsUsers.lastname != null && _react2.default.createElement(
+                                'div',
+                                { className: 'invalid-feedback', style: { display: 'block' } },
+                                this.props.errorsUsers.lastname
+                            )
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'form-group' },
+                            { className: 'form-group has-danger' },
                             _react2.default.createElement(
                                 'label',
                                 { htmlFor: 'username' },
                                 'Username'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'username', placeholder: 'Username', value: this.state.username, onChange: function onChange(e) {
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control form-control-danger', id: 'username', name: 'username', placeholder: 'Username', value: this.state.username, onChange: function onChange(e) {
                                     return _this2.setState({ username: e.target.value });
-                                } })
+                                } }),
+                            this.props.errorsUsers.username != null && _react2.default.createElement(
+                                'div',
+                                { className: 'invalid-feedback', style: { display: 'block' } },
+                                this.props.errorsUsers.username
+                            )
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'form-group' },
+                            { className: 'form-group has-danger' },
                             _react2.default.createElement(
                                 'label',
                                 { htmlFor: 'datepicker' },
                                 'Birthday'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'datepicker', placeholder: 'jj/mm/aaaa', value: this.state.birthday, onChange: function onChange(e) {
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control form-control-danger', id: 'datepicker', placeholder: 'jj/mm/aaaa', value: this.state.birthday, onChange: function onChange(e) {
                                     return _this2.setState({ birthday: e.target.value });
-                                } })
+                                } }),
+                            this.props.errorsUsers.birthday != null && _react2.default.createElement(
+                                'div',
+                                { className: 'invalid-feedback', style: { display: 'block' } },
+                                this.props.errorsUsers.birthday
+                            )
                         ),
                         _react2.default.createElement(
                             'button',
@@ -29883,7 +29904,8 @@ var Users = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
     return {
-        users: state.users
+        users: state.users,
+        errorsUsers: state.errorsUsers
     };
 };
 
@@ -30015,12 +30037,16 @@ var addUser = exports.addUser = function addUser(data) {
             url: url,
             data: data
         }).then(function (response) {
+            console.log(response, '*****************************');
             dispatch({
                 type: types.ADD,
                 data: response.data.user
             });
         }).catch(function (error) {
-            console.log(error);
+            dispatch({
+                type: types.ADD_ERROR,
+                data: error.response.data
+            });
         });
     };
 };
@@ -30156,7 +30182,9 @@ exports.default = (0, _redux.combineReducers)(_extends({
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.users = undefined;
+exports.errorsUsers = exports.users = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -30175,23 +30203,48 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var initialState = {
-    users: []
+    users: [],
+    errorsUsers: {
+        firstname: null,
+        lastname: null,
+        username: null,
+        birthday: null
+    }
 };
 
 var users = exports.users = function users() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState.users;
     var action = arguments[1];
 
     switch (action.type) {
         case types.SEARCH_RESULT:
-            return [].concat(_toConsumableArray(state.users), _toConsumableArray(action.data.users));
+            console.log(state, '****************');
+            return [].concat(_toConsumableArray(state), _toConsumableArray(action.data.users));
         case types.ADD:
+            console.log(action, '$$$$$$$$$$$$$$$$$$$$$$$$');
             return [].concat(_toConsumableArray(state), [_extends({}, action.data)]);
         case types.DELETE:
             var _users = _lodash2.default.filter(state, function (item) {
                 return item.id != action.data;
             });
             return _users;
+        default:
+            return state;
+    }
+};
+
+var errorsUsers = exports.errorsUsers = function errorsUsers() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState.errorsUsers;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case types.ADD_ERROR:
+            return {
+                firstname: _typeof(action.data.firstname) === 'object' ? action.data.firstname[0] : null,
+                lastname: _typeof(action.data.lastname) === 'object' ? action.data.lastname[0] : null,
+                username: _typeof(action.data.username) === 'object' ? action.data.username[0] : null,
+                birthday: _typeof(action.data.birthday) === 'object' ? action.data.birthday[0] : null
+            };
         default:
             return state;
     }

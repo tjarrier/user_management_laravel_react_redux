@@ -32,9 +32,9 @@ class Users extends Component {
         }
         console.log(moment(this.state.birthday, 'DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss'))
         this.props.addUser({
-            firstname: this.state.firstname != '' ? this.state.firstname : 'Non renseigné' ,
-            lastname: this.state.lastname != '' ? this.state.lastname : 'Non renseigné',
-            username: this.state.username != '' ? this.state.username : 'Non renseigné',
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            username: this.state.username,
             birthday: this.state.birthday != '' ? moment(this.state.birthday, 'DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss') : null,
             age: age
         })
@@ -46,26 +46,46 @@ class Users extends Component {
     }
 
     render () {
-        // console.log(this.props)
+        console.log(this.props.users, this.props.errorsUsers)
         return (
             <div>
                 <div>
                     <form>
-                        <div className="form-group">
+                        <div className="form-group has-danger has-feedback">
                             <label htmlFor="firstname">First Name</label>
-                            <input type="text" className="form-control" id="firstname" placeholder="First Name" value={this.state.firstname} onChange={(e) => this.setState({firstname: e.target.value})} />
+                            <input type="text" className="form-control form-control-danger" name="firstname" id="firstname" placeholder="First Name" value={this.state.firstname} onChange={(e) => this.setState({firstname: e.target.value})} />
+                            {this.props.errorsUsers.firstname != null && (
+                                <div className="invalid-feedback" style={{display: 'block'}}>
+                                    {this.props.errorsUsers.firstname}
+                                </div>
+                            )}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group has-danger">
                             <label htmlFor="lastname">Last Name</label>
-                            <input type="text" className="form-control" id="lastname" placeholder="Last Name" value={this.state.lastname} onChange={(e) => this.setState({lastname: e.target.value})} />
+                            <input type="text" className="form-control form-control-danger" name="lastname" id="lastname" placeholder="Last Name" value={this.state.lastname} onChange={(e) => this.setState({lastname: e.target.value})} />
+                            {this.props.errorsUsers.lastname != null && (
+                                <div className="invalid-feedback" style={{display: 'block'}}>
+                                    {this.props.errorsUsers.lastname}
+                                </div>
+                            )}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group has-danger">
                             <label htmlFor="username">Username</label>
-                            <input type="text" className="form-control" id="username" placeholder="Username" value={this.state.username} onChange={(e) => this.setState({username: e.target.value})} />
+                            <input type="text" className="form-control form-control-danger" id="username" name="username" placeholder="Username" value={this.state.username} onChange={(e) => this.setState({username: e.target.value})} />
+                            {this.props.errorsUsers.username != null && (
+                                <div className="invalid-feedback" style={{display: 'block'}}>
+                                    {this.props.errorsUsers.username}
+                                </div>
+                            )}
                         </div>
-                        <div className="form-group">
+                        <div className="form-group has-danger">
                             <label htmlFor="datepicker">Birthday</label>
-                            <input type="text" className="form-control" id="datepicker" placeholder="jj/mm/aaaa" value={this.state.birthday} onChange={(e) => this.setState({birthday: e.target.value})} />
+                            <input type="text" className="form-control form-control-danger" id="datepicker" placeholder="jj/mm/aaaa" value={this.state.birthday} onChange={(e) => this.setState({birthday: e.target.value})} />
+                            {this.props.errorsUsers.birthday != null && (
+                                <div className="invalid-feedback" style={{display: 'block'}}>
+                                    {this.props.errorsUsers.birthday}
+                                </div>
+                            )}
                         </div>
                         <button type="submit" className="btn btn-primary" onClick={this.addUser}>Ajouter</button>
                     </form>
@@ -112,7 +132,8 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    users: state.users
+    users: state.users,
+    errorsUsers: state.errorsUsers,
 })
 
 const mapDispatchToProps = (dispatch) => (

@@ -27,7 +27,19 @@ class UsersRequest extends FormRequest
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
             'username' => 'required|unique:users|max:255',
-            'birthday' => 'date|date_format:dd/mm/yyyy',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'firstname.required' => 'Le champ Prénom est obligatoire',
+            'firstname.max' => 'Le champ Prénom ne doit pas dépasser 255 caractères',
+            'lastname.required' => 'Le champ Nom est obligatoire',
+            'lastname.max' => 'Le champ Nom est ne doit pas dépasser 255 caractères',
+            'username.required' => 'Le champ Pseudo est obligatoire',
+            'username.unique' => 'Le Pseudo est déjà utilisé',
+            'username.max' => 'Le champ Pseudo est ne doit pas dépasser 255 caractères',
         ];
     }
 }

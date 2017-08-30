@@ -34,7 +34,10 @@ export const addUser = (data) => {
                 })
             })
             .catch((error) => {
-                console.log(error);
+                dispatch({
+                    type: types.ADD_ERROR,
+                    data: error.response.data
+                })
             })
     }
 }
