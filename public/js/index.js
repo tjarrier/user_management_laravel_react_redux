@@ -30037,7 +30037,6 @@ var addUser = exports.addUser = function addUser(data) {
             url: url,
             data: data
         }).then(function (response) {
-            console.log(response, '*****************************');
             dispatch({
                 type: types.ADD,
                 data: response.data.user
