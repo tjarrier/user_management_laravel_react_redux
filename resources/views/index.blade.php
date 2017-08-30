@@ -12,10 +12,15 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="/css/font-awesome.css">
     </head>
     <body>
         <div id="root"></div>
-
+        <script>
+            window.Laravel = <?php echo json_encode([
+                'csrfToken' => csrf_token(),
+            ]); ?>
+        </script>
         <script type="text/javascript" src="/js/index.js"></script>
     </body>
 </html>

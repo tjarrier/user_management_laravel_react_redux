@@ -6,16 +6,12 @@ import App from '../containers/App'
 
 // Components
 import Home from '../containers/Home'
-import Lycee from '../containers/Lycee'
-import Settings from '../containers/Settings'
-import Contact from '../containers/Contact'
+import Users from '@containers/Users'
 
 const routes = (
     <App>
         <Route exact path="/" component={Home} />
-        <Route exact path="/chooseLycee" component={Lycee} />
-        <Route exact path="/settings" component={Settings} />
-        <Route exact path="/contact" component={Contact} />
+        <Route exact path="/users" component={Users} />
     </App>
 )
 
