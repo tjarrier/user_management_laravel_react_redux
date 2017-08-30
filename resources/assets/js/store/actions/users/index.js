@@ -1,7 +1,9 @@
 import * as types from './types'
 import axios from 'axios'
 
-const URL_API = 'http://localhost:3000/api'
+// const URL_API = 'http://localhost:3000/api'
+const URL_API = 'http://laravelreacttest.dev/api'
+
 
 const searchResult = (data) => ({type: types.SEARCH_RESULT, data})
 

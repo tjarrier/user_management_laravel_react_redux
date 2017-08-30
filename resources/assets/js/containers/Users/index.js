@@ -6,6 +6,7 @@ import {ActionsCreators} from '../../store/actions'
 
 import _ from 'lodash'
 import moment from 'moment'
+moment.locale('fr')
 
 class Users extends Component {
     constructor (props) {
